@@ -1,162 +1,178 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { motion } from 'framer-motion'
-import { 
-  Code, Palette, Zap, TrendingUp, 
-  Check, ArrowRight, Star, Users, Award 
-} from 'lucide-react'
-import Hero from '../sections/Hero'
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "motion/react";
+import {
+  Code,
+  Palette,
+  Zap,
+  TrendingUp,
+  Check,
+  ArrowRight,
+  Star,
+  Users,
+  Award,
+} from "lucide-react";
+import Hero from "../sections/Hero";
+import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Home = () => {
-  const servicesRef = useRef(null)
-  const pricingRef = useRef(null)
-  const statsRef = useRef(null)
+  const servicesRef = useRef(null);
+  const pricingRef = useRef(null);
+  const statsRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Services cards animation
-      gsap.fromTo(
-        '.service-card',
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: 'power3.out',
+  useGSAP(
+    (context) => {
+      const q = context.selector;
+
+      // 🔥 SERVICES TIMELINE
+      gsap
+        .timeline({
           scrollTrigger: {
             trigger: servicesRef.current,
-            start: 'top 80%',
+            start: "top 75%",
+            toggleActions: "play none none none",
+            once: true,
           },
-        }
-      )
-
-      // Pricing cards animation
-      gsap.fromTo(
-        '.pricing-card',
-        { y: 80, opacity: 0, scale: 0.9 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          stagger: 0.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: pricingRef.current,
-            start: 'top 80%',
-          },
-        }
-      )
-
-      // Stats counter animation
-      gsap.fromTo(
-        '.stat-item',
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
+        })
+        .from(q(".service-card"), {
+          y: 50,
+          opacity: 0,
           duration: 0.6,
           stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: 'top 85%',
-          },
-        }
-      )
-    })
+          ease: "power2.out",
+          force3D: true,
+        });
 
-    return () => ctx.revert()
-  }, [])
+      // 🔥 STATS
+      gsap.from(q(".stat-item"), {
+        y: 30,
+        opacity: 0,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: "power2.out",
+        force3D: true,
+        scrollTrigger: {
+          trigger: statsRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+          once: true,
+        },
+      });
+
+      // 🔥 PRICING
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: pricingRef.current,
+            start: "top 75%",
+            toggleActions: "play none none none",
+            once: true,
+          },
+        })
+        .from(q(".pricing-card"), {
+          y: 60,
+          opacity: 0,
+          scale: 0.95,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: "power2.out",
+          force3D: true,
+        });
+    },
+    { scope: servicesRef }, // 👈 scoped
+  );
 
   const services = [
     {
       icon: Code,
-      title: 'Web Development',
-      description: 'Building fast, responsive, and scalable web applications with modern technologies.',
-      color: 'from-neon-blue to-neon-cyan',
+      title: "Web Development",
+      description:
+        "Building fast, responsive, and scalable web applications with modern technologies.",
+      color: "from-neon-blue to-neon-cyan",
     },
     {
       icon: Palette,
-      title: 'UI/UX Design',
-      description: 'Creating intuitive and visually stunning user interfaces that delight users.',
-      color: 'from-neon-purple to-pink-500',
+      title: "UI/UX Design",
+      description:
+        "Creating intuitive and visually stunning user interfaces that delight users.",
+      color: "from-neon-purple to-pink-500",
     },
     {
       icon: Zap,
-      title: 'Motion Graphics',
-      description: 'Bringing designs to life with smooth animations and engaging interactions.',
-      color: 'from-yellow-400 to-orange-500',
+      title: "Motion Graphics",
+      description:
+        "Bringing designs to life with smooth animations and engaging interactions.",
+      color: "from-yellow-400 to-orange-500",
     },
     {
       icon: TrendingUp,
-      title: 'Brand Strategy',
-      description: 'Developing comprehensive brand identities that stand out in the market.',
-      color: 'from-green-400 to-emerald-500',
+      title: "Brand Strategy",
+      description:
+        "Developing comprehensive brand identities that stand out in the market.",
+      color: "from-green-400 to-emerald-500",
     },
-  ]
+  ];
 
   const pricingPlans = [
     {
-      name: 'Basic',
-      price: '$99',
-      period: '/project',
-      description: 'Perfect for small projects and startups',
+      name: "Basic",
+      price: "$99",
+      period: "/project",
+      description: "Perfect for small projects and startups",
       features: [
-        'Single Page Website',
-        'Responsive Design',
-        'Basic SEO',
-        '2 Revisions',
-        '1 Week Delivery',
+        "Single Page Website",
+        "Responsive Design",
+        "Basic SEO",
+        "2 Revisions",
+        "1 Week Delivery",
       ],
       featured: false,
-      buttonText: 'Get Started',
+      buttonText: "Get Started",
     },
     {
-      name: 'Standard',
-      price: '$199',
-      period: '/project',
-      description: 'Ideal for growing businesses',
+      name: "Standard",
+      price: "$199",
+      period: "/project",
+      description: "Ideal for growing businesses",
       features: [
-        'Multi-Page Website',
-        'Advanced UI/UX Design',
-        'Full SEO Optimization',
-        'Unlimited Revisions',
-        '2 Weeks Delivery',
-        'Source Files Included',
+        "Multi-Page Website",
+        "Advanced UI/UX Design",
+        "Full SEO Optimization",
+        "Unlimited Revisions",
+        "2 Weeks Delivery",
+        "Source Files Included",
       ],
       featured: true,
-      buttonText: 'Most Popular',
+      buttonText: "Most Popular",
     },
     {
-      name: 'Premium',
-      price: '$299',
-      period: '/project',
-      description: 'For enterprises and complex projects',
+      name: "Premium",
+      price: "$299",
+      period: "/project",
+      description: "For enterprises and complex projects",
       features: [
-        'Full-Stack Application',
-        'Custom Animations',
-        'Priority Support',
-        'Unlimited Revisions',
-        '3 Weeks Delivery',
-        'Source Files + Documentation',
-        '6 Months Maintenance',
+        "Full-Stack Application",
+        "Custom Animations",
+        "Priority Support",
+        "Unlimited Revisions",
+        "3 Weeks Delivery",
+        "Source Files + Documentation",
+        "6 Months Maintenance",
       ],
       featured: false,
-      buttonText: 'Contact Us',
+      buttonText: "Contact Us",
     },
-  ]
+  ];
 
   const stats = [
-    { icon: Users, value: '50+', label: 'Projects Completed' },
-    { icon: Star, value: '30+', label: 'Happy Clients' },
-    { icon: Award, value: '5+', label: 'Years Experience' },
-    { icon: Zap, value: '100%', label: 'Satisfaction Rate' },
-  ]
+    { icon: Users, value: "50+", label: "Projects Completed" },
+    { icon: Star, value: "30+", label: "Happy Clients" },
+    { icon: Award, value: "5+", label: "Years Experience" },
+    { icon: Zap, value: "100%", label: "Satisfaction Rate" },
+  ];
 
   return (
     <div className="bg-dark-void">
@@ -185,7 +201,8 @@ const Home = () => {
               My <span className="text-neon-blue">Services</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              I offer a wide range of digital services to help businesses grow and succeed in the digital world.
+              I offer a wide range of digital services to help businesses grow
+              and succeed in the digital world.
             </p>
           </motion.div>
 
@@ -199,7 +216,9 @@ const Home = () => {
               >
                 <div className="relative p-8 rounded-2xl glass border border-white/5 hover:border-neon-cyan/30 transition-all duration-500 h-full">
                   {/* Icon */}
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <service.icon size={28} className="text-white" />
                   </div>
 
@@ -218,7 +237,9 @@ const Home = () => {
                   </div>
 
                   {/* Glow Effect */}
-                  <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                  <div
+                    className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
+                  />
                 </div>
               </motion.div>
             ))}
@@ -270,7 +291,8 @@ const Home = () => {
               Choose Your <span className="text-neon-purple">Plan</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              Flexible pricing options designed to fit your needs and budget. Get started today!
+              Flexible pricing options designed to fit your needs and budget.
+              Get started today!
             </p>
           </motion.div>
 
@@ -279,14 +301,14 @@ const Home = () => {
             {pricingPlans.map((plan, index) => (
               <motion.div
                 key={index}
-                className={`pricing-card relative ${plan.featured ? 'md:-mt-4 md:mb-4' : ''}`}
+                className={`pricing-card relative ${plan.featured ? "md:-mt-4 md:mb-4" : ""}`}
                 whileHover={{ y: -10 }}
               >
                 <div
                   className={`relative p-8 rounded-3xl h-full ${
                     plan.featured
-                      ? 'glass-strong border-2 border-neon-purple/50'
-                      : 'glass border border-white/5'
+                      ? "glass-strong border-2 border-neon-purple/50"
+                      : "glass border border-white/5"
                   }`}
                 >
                   {/* Featured Badge */}
@@ -300,7 +322,9 @@ const Home = () => {
                   <h3 className="text-xl font-display font-semibold text-white mb-2">
                     {plan.name}
                   </h3>
-                  <p className="text-gray-400 text-sm mb-6">{plan.description}</p>
+                  <p className="text-gray-400 text-sm mb-6">
+                    {plan.description}
+                  </p>
 
                   {/* Price */}
                   <div className="flex items-baseline gap-1 mb-8">
@@ -314,9 +338,11 @@ const Home = () => {
                   <ul className="space-y-4 mb-8">
                     {plan.features.map((feature, fIndex) => (
                       <li key={fIndex} className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                          plan.featured ? 'bg-neon-purple' : 'bg-neon-blue'
-                        }`}>
+                        <div
+                          className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                            plan.featured ? "bg-neon-purple" : "bg-neon-blue"
+                          }`}
+                        >
                           <Check size={12} className="text-white" />
                         </div>
                         <span className="text-gray-300 text-sm">{feature}</span>
@@ -330,8 +356,8 @@ const Home = () => {
                     whileTap={{ scale: 0.98 }}
                     className={`w-full py-4 rounded-xl font-semibold transition-all ${
                       plan.featured
-                        ? 'bg-gradient-to-r from-neon-purple to-neon-blue text-white hover:shadow-lg hover:shadow-neon-purple/25'
-                        : 'glass text-white hover:border-neon-cyan/50'
+                        ? "bg-gradient-to-r from-neon-purple to-neon-blue text-white hover:shadow-lg hover:shadow-neon-purple/25"
+                        : "glass text-white hover:border-neon-cyan/50"
                     }`}
                   >
                     {plan.buttonText}
@@ -361,11 +387,12 @@ const Home = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
-              Ready to Start Your{' '}
+              Ready to Start Your{" "}
               <span className="text-neon-cyan">Project?</span>
             </h2>
             <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-              Let's collaborate and bring your vision to life. I'm always excited to work on new and challenging projects.
+              Let's collaborate and bring your vision to life. I'm always
+              excited to work on new and challenging projects.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -389,7 +416,7 @@ const Home = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

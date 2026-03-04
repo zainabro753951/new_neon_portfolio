@@ -1,24 +1,34 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { motion } from 'framer-motion'
-import { 
-  Code, Palette, Zap, TrendingUp, 
-  Smartphone, Globe, Layers, Sparkles,
-  ArrowRight, Check
-} from 'lucide-react'
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "motion/react";
+import {
+  Code,
+  Palette,
+  Zap,
+  TrendingUp,
+  Smartphone,
+  Globe,
+  Layers,
+  Sparkles,
+  ArrowRight,
+  Check,
+} from "lucide-react";
+import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Services = () => {
-  const servicesRef = useRef(null)
-  const processRef = useRef(null)
+  const servicesRef = useRef(null);
+  const processRef = useRef(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Service cards fan-out animation
+  useGSAP(
+    (context) => {
+      const q = context.selector;
+
+      // 🔥 Service cards fan-out animation (SAME animation)
       gsap.fromTo(
-        '.service-card-main',
+        q(".service-card-main"),
         { y: 80, opacity: 0, rotateX: 15 },
         {
           y: 0,
@@ -26,144 +36,164 @@ const Services = () => {
           rotateX: 0,
           duration: 0.8,
           stagger: 0.15,
-          ease: 'power3.out',
+          ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: servicesRef.current,
-            start: 'top 75%',
+            start: "top 75%",
+            toggleActions: "play none none none",
+            once: true,
           },
-        }
-      )
+        },
+      );
 
-      // Process steps animation
+      // 🔥 Process steps animation (SAME animation)
       gsap.fromTo(
-        '.process-step',
+        q(".process-step"),
         { x: -40, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 0.8,
           stagger: 0.2,
-          ease: 'power3.out',
+          ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: processRef.current,
-            start: 'top 80%',
+            start: "top 80%",
+            toggleActions: "play none none none",
+            once: true,
           },
-        }
-      )
-    })
-
-    return () => ctx.revert()
-  }, [])
+        },
+      );
+    },
+    {
+      scope: servicesRef, // Scoped for better performance
+    },
+  );
 
   const mainServices = [
     {
       icon: Code,
-      title: 'Web Development',
-      description: 'Building fast, responsive, and scalable web applications using modern technologies like React, Next.js, and Node.js.',
+      title: "Web Development",
+      description:
+        "Building fast, responsive, and scalable web applications using modern technologies like React, Next.js, and Node.js.",
       features: [
-        'Custom Web Applications',
-        'E-commerce Solutions',
-        'CMS Integration',
-        'API Development',
-        'Performance Optimization',
+        "Custom Web Applications",
+        "E-commerce Solutions",
+        "CMS Integration",
+        "API Development",
+        "Performance Optimization",
       ],
-      color: 'from-neon-blue to-neon-cyan',
-      gradient: 'bg-gradient-to-br from-neon-blue/20 to-neon-cyan/20',
+      color: "from-neon-blue to-neon-cyan",
+      gradient: "bg-gradient-to-br from-neon-blue/20 to-neon-cyan/20",
     },
     {
       icon: Palette,
-      title: 'UI/UX Design',
-      description: 'Creating intuitive and visually stunning user interfaces that provide exceptional user experiences.',
+      title: "UI/UX Design",
+      description:
+        "Creating intuitive and visually stunning user interfaces that provide exceptional user experiences.",
       features: [
-        'User Research',
-        'Wireframing',
-        'Prototyping',
-        'Visual Design',
-        'Design Systems',
+        "User Research",
+        "Wireframing",
+        "Prototyping",
+        "Visual Design",
+        "Design Systems",
       ],
-      color: 'from-neon-purple to-pink-500',
-      gradient: 'bg-gradient-to-br from-neon-purple/20 to-pink-500/20',
+      color: "from-neon-purple to-pink-500",
+      gradient: "bg-gradient-to-br from-neon-purple/20 to-pink-500/20",
     },
     {
       icon: Zap,
-      title: 'Motion Graphics',
-      description: 'Bringing designs to life with smooth animations and engaging interactions that captivate users.',
+      title: "Motion Graphics",
+      description:
+        "Bringing designs to life with smooth animations and engaging interactions that captivate users.",
       features: [
-        'Micro-interactions',
-        'Page Transitions',
-        'Scroll Animations',
-        'Loading Animations',
-        'Lottie Animations',
+        "Micro-interactions",
+        "Page Transitions",
+        "Scroll Animations",
+        "Loading Animations",
+        "Lottie Animations",
       ],
-      color: 'from-yellow-400 to-orange-500',
-      gradient: 'bg-gradient-to-br from-yellow-400/20 to-orange-500/20',
+      color: "from-yellow-400 to-orange-500",
+      gradient: "bg-gradient-to-br from-yellow-400/20 to-orange-500/20",
     },
     {
       icon: TrendingUp,
-      title: 'Brand Strategy',
-      description: 'Developing comprehensive brand identities that stand out and resonate with your target audience.',
+      title: "Brand Strategy",
+      description:
+        "Developing comprehensive brand identities that stand out and resonate with your target audience.",
       features: [
-        'Brand Identity',
-        'Logo Design',
-        'Brand Guidelines',
-        'Marketing Materials',
-        'Social Media Design',
+        "Brand Identity",
+        "Logo Design",
+        "Brand Guidelines",
+        "Marketing Materials",
+        "Social Media Design",
       ],
-      color: 'from-green-400 to-emerald-500',
-      gradient: 'bg-gradient-to-br from-green-400/20 to-emerald-500/20',
+      color: "from-green-400 to-emerald-500",
+      gradient: "bg-gradient-to-br from-green-400/20 to-emerald-500/20",
     },
-  ]
+  ];
 
   const additionalServices = [
     {
       icon: Smartphone,
-      title: 'Mobile Development',
-      description: 'Creating responsive mobile-first experiences and progressive web apps.',
+      title: "Mobile Development",
+      description:
+        "Creating responsive mobile-first experiences and progressive web apps.",
     },
     {
       icon: Globe,
-      title: 'SEO Optimization',
-      description: 'Improving your website visibility and ranking on search engines.',
+      title: "SEO Optimization",
+      description:
+        "Improving your website visibility and ranking on search engines.",
     },
     {
       icon: Layers,
-      title: '3D Design',
-      description: 'Adding depth to your projects with stunning 3D elements and animations.',
+      title: "3D Design",
+      description:
+        "Adding depth to your projects with stunning 3D elements and animations.",
     },
     {
       icon: Sparkles,
-      title: 'Consulting',
-      description: 'Expert advice to help you make the right technical decisions.',
+      title: "Consulting",
+      description:
+        "Expert advice to help you make the right technical decisions.",
     },
-  ]
+  ];
 
   const processSteps = [
     {
-      number: '01',
-      title: 'Discovery',
-      description: 'Understanding your goals, target audience, and project requirements through in-depth discussions.',
+      number: "01",
+      title: "Discovery",
+      description:
+        "Understanding your goals, target audience, and project requirements through in-depth discussions.",
     },
     {
-      number: '02',
-      title: 'Strategy',
-      description: 'Developing a comprehensive plan with timelines, milestones, and deliverables.',
+      number: "02",
+      title: "Strategy",
+      description:
+        "Developing a comprehensive plan with timelines, milestones, and deliverables.",
     },
     {
-      number: '03',
-      title: 'Design',
-      description: 'Creating wireframes, mockups, and prototypes to visualize the final product.',
+      number: "03",
+      title: "Design",
+      description:
+        "Creating wireframes, mockups, and prototypes to visualize the final product.",
     },
     {
-      number: '04',
-      title: 'Development',
-      description: 'Building the solution with clean code and modern technologies.',
+      number: "04",
+      title: "Development",
+      description:
+        "Building the solution with clean code and modern technologies.",
     },
     {
-      number: '05',
-      title: 'Launch',
-      description: 'Deploying your project and ensuring everything runs smoothly.',
+      number: "05",
+      title: "Launch",
+      description:
+        "Deploying your project and ensuring everything runs smoothly.",
     },
-  ]
+  ];
 
   return (
     <div className="bg-dark-void min-h-screen pt-24">
@@ -172,7 +202,7 @@ const Services = () => {
         <div className="absolute inset-0 gradient-mesh" />
         <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple/20 rounded-full blur-[120px]" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -187,8 +217,8 @@ const Services = () => {
               My <span className="text-neon-blue">Services</span>
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Comprehensive digital solutions tailored to your needs. From concept to launch, 
-              I'll help you build something amazing.
+              Comprehensive digital solutions tailored to your needs. From
+              concept to launch, I'll help you build something amazing.
             </p>
           </motion.div>
         </div>
@@ -218,14 +248,20 @@ const Services = () => {
                 key={index}
                 className="service-card-main group"
                 whileHover={{ y: -10 }}
-                style={{ perspective: '1000px' }}
+                style={{ perspective: "1000px" }}
               >
-                <div className={`relative p-8 rounded-3xl ${service.gradient} border border-white/5 hover:border-white/20 transition-all duration-500 h-full overflow-hidden`}>
+                <div
+                  className={`relative p-8 rounded-3xl ${service.gradient} border border-white/5 hover:border-white/20 transition-all duration-500 h-full overflow-hidden`}
+                >
                   {/* Background Glow */}
-                  <div className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${service.color} opacity-10 rounded-full blur-[80px] group-hover:opacity-20 transition-opacity`} />
-                  
+                  <div
+                    className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br ${service.color} opacity-10 rounded-full blur-[80px] group-hover:opacity-20 transition-opacity`}
+                  />
+
                   {/* Icon */}
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div
+                    className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                  >
                     <service.icon size={32} className="text-white" />
                   </div>
 
@@ -241,7 +277,9 @@ const Services = () => {
                   <ul className="space-y-3 mb-8">
                     {service.features.map((feature, fIndex) => (
                       <li key={fIndex} className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full bg-gradient-to-r ${service.color} flex items-center justify-center flex-shrink-0`}>
+                        <div
+                          className={`w-5 h-5 rounded-full bg-gradient-to-r ${service.color} flex items-center justify-center flex-shrink-0`}
+                        >
                           <Check size={12} className="text-white" />
                         </div>
                         <span className="text-gray-300 text-sm">{feature}</span>
@@ -255,7 +293,10 @@ const Services = () => {
                     className="flex items-center gap-2 text-neon-cyan font-medium group/btn"
                   >
                     <span>Learn More</span>
-                    <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                    <ArrowRight
+                      size={18}
+                      className="group-hover/btn:translate-x-1 transition-transform"
+                    />
                   </motion.button>
                 </div>
               </motion.div>
@@ -267,7 +308,7 @@ const Services = () => {
       {/* Additional Services */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-cyan/5 rounded-full blur-[150px]" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -293,7 +334,7 @@ const Services = () => {
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -10 }}
-                className="glass rounded-2xl p-6 border border-white/5 hover:border-neon-cyan/30 transition-all text-center"
+                className="glass rounded-2xl p-6 border border-white/5 hover:border-neon-cyan/30 text-center"
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-neon-cyan to-neon-blue flex items-center justify-center mx-auto mb-4">
                   <service.icon size={28} className="text-white" />
@@ -325,7 +366,7 @@ const Services = () => {
               How I <span className="text-neon-blue">Work</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
-              A proven process that ensures every project is delivered on time, 
+              A proven process that ensures every project is delivered on time,
               within budget, and exceeds expectations.
             </p>
           </motion.div>
@@ -367,11 +408,12 @@ const Services = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">
-              Ready to Start Your <span className="text-neon-cyan">Project?</span>
+              Ready to Start Your{" "}
+              <span className="text-neon-cyan">Project?</span>
             </h2>
             <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-              Let's discuss how I can help bring your vision to life. 
-              Get in touch for a free consultation.
+              Let's discuss how I can help bring your vision to life. Get in
+              touch for a free consultation.
             </p>
 
             <motion.button
@@ -385,7 +427,7 @@ const Services = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Services
+export default Services;

@@ -1,95 +1,101 @@
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  Star, Quote, ChevronLeft, ChevronRight,
-  ThumbsUp, MessageCircle
-} from 'lucide-react'
-import review1 from '../assets/images/review-1.jpg'
-import review2 from '../assets/images/review-2.jpg'
-import review3 from '../assets/images/review-3.jpg'
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  ThumbsUp,
+  MessageCircle,
+} from "lucide-react";
+import review1 from "../assets/images/review-1.jpg";
+import review2 from "../assets/images/review-2.jpg";
+import review3 from "../assets/images/review-3.jpg";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 const Reviews = () => {
-  const reviewsRef = useRef(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const reviewsRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        '.review-card',
+        ".review-card",
         { y: 50, opacity: 0 },
         {
           y: 0,
           opacity: 1,
           duration: 0.8,
           stagger: 0.15,
-          ease: 'power3.out',
+          ease: "power3.out",
           scrollTrigger: {
             trigger: reviewsRef.current,
-            start: 'top 75%',
+            start: "top 75%",
           },
-        }
-      )
-    })
+        },
+      );
+    });
 
-    return () => ctx.revert()
-  }, [])
+    return () => ctx.revert();
+  }, []);
 
   // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+      setActiveIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const testimonials = [
     {
       id: 1,
-      name: 'Sarah Johnson',
-      role: 'CEO, TechStart Inc.',
+      name: "Sarah Johnson",
+      role: "CEO, TechStart Inc.",
       image: review1,
       rating: 5,
-      text: 'Working with Alex was an absolute pleasure. The attention to detail and creativity brought to our project exceeded all expectations. Our website traffic increased by 150% after the redesign!',
-      project: 'Website Redesign',
+      text: "Working with Alex was an absolute pleasure. The attention to detail and creativity brought to our project exceeded all expectations. Our website traffic increased by 150% after the redesign!",
+      project: "Website Redesign",
     },
     {
       id: 2,
-      name: 'Michael Chen',
-      role: 'Product Manager, InnovateCo',
+      name: "Michael Chen",
+      role: "Product Manager, InnovateCo",
       image: review2,
       rating: 5,
-      text: 'Alex has an incredible ability to understand client needs and translate them into beautiful, functional designs. The animations and interactions added a whole new level of polish to our product.',
-      project: 'SaaS Dashboard',
+      text: "Alex has an incredible ability to understand client needs and translate them into beautiful, functional designs. The animations and interactions added a whole new level of polish to our product.",
+      project: "SaaS Dashboard",
     },
     {
       id: 3,
-      name: 'Emily Rodriguez',
-      role: 'Marketing Director, Brandify',
+      name: "Emily Rodriguez",
+      role: "Marketing Director, Brandify",
       image: review3,
       rating: 5,
-      text: 'The brand identity Alex created for us perfectly captures our company vision. Professional, creative, and always delivered on time. Highly recommend for any design project!',
-      project: 'Brand Identity',
+      text: "The brand identity Alex created for us perfectly captures our company vision. Professional, creative, and always delivered on time. Highly recommend for any design project!",
+      project: "Brand Identity",
     },
-  ]
+  ];
 
   const stats = [
-    { value: '50+', label: 'Projects Completed', icon: ThumbsUp },
-    { value: '30+', label: 'Happy Clients', icon: MessageCircle },
-    { value: '5.0', label: 'Average Rating', icon: Star },
-    { value: '100%', label: 'Satisfaction Rate', icon: ThumbsUp },
-  ]
+    { value: "50+", label: "Projects Completed", icon: ThumbsUp },
+    { value: "30+", label: "Happy Clients", icon: MessageCircle },
+    { value: "5.0", label: "Average Rating", icon: Star },
+    { value: "100%", label: "Satisfaction Rate", icon: ThumbsUp },
+  ];
 
   const nextTestimonial = () => {
-    setActiveIndex((prev) => (prev + 1) % testimonials.length)
-  }
+    setActiveIndex((prev) => (prev + 1) % testimonials.length);
+  };
 
   const prevTestimonial = () => {
-    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-  }
+    setActiveIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
+    );
+  };
 
   return (
     <div className="bg-dark-void min-h-screen pt-24">
@@ -98,7 +104,7 @@ const Reviews = () => {
         <div className="absolute inset-0 gradient-mesh" />
         <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple/20 rounded-full blur-[120px]" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -113,7 +119,7 @@ const Reviews = () => {
               Client <span className="text-neon-blue">Reviews</span>
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Don't just take my word for it. Here's what my clients have to say 
+              Don't just take my word for it. Here's what my clients have to say
               about working together.
             </p>
           </motion.div>
@@ -123,7 +129,7 @@ const Reviews = () => {
       {/* Featured Testimonial Carousel */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-neon-purple/5 rounded-full blur-[150px]" />
-        
+
         <div className="max-w-5xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -159,9 +165,15 @@ const Reviews = () => {
                 >
                   {/* Rating */}
                   <div className="flex gap-1 mb-6">
-                    {[...Array(testimonials[activeIndex].rating)].map((_, i) => (
-                      <Star key={i} size={20} className="text-yellow-400 fill-yellow-400" />
-                    ))}
+                    {[...Array(testimonials[activeIndex].rating)].map(
+                      (_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          className="text-yellow-400 fill-yellow-400"
+                        />
+                      ),
+                    )}
                   </div>
 
                   {/* Quote */}
@@ -180,7 +192,9 @@ const Reviews = () => {
                       <h4 className="text-lg font-display font-semibold text-white">
                         {testimonials[activeIndex].name}
                       </h4>
-                      <p className="text-gray-400">{testimonials[activeIndex].role}</p>
+                      <p className="text-gray-400">
+                        {testimonials[activeIndex].role}
+                      </p>
                       <span className="inline-block mt-1 px-3 py-1 rounded-full glass text-xs text-neon-cyan">
                         {testimonials[activeIndex].project}
                       </span>
@@ -198,8 +212,8 @@ const Reviews = () => {
                       onClick={() => setActiveIndex(index)}
                       className={`w-3 h-3 rounded-full transition-all ${
                         index === activeIndex
-                          ? 'bg-neon-cyan w-8'
-                          : 'bg-white/20 hover:bg-white/40'
+                          ? "bg-neon-cyan w-8"
+                          : "bg-white/20 hover:bg-white/40"
                       }`}
                     />
                   ))}
@@ -262,7 +276,11 @@ const Reviews = () => {
                   {/* Rating */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
+                      <Star
+                        key={i}
+                        size={16}
+                        className="text-yellow-400 fill-yellow-400"
+                      />
                     ))}
                   </div>
 
@@ -282,7 +300,9 @@ const Reviews = () => {
                       <h4 className="font-display font-semibold text-white text-sm">
                         {testimonial.name}
                       </h4>
-                      <p className="text-gray-500 text-xs">{testimonial.role}</p>
+                      <p className="text-gray-500 text-xs">
+                        {testimonial.role}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -295,7 +315,7 @@ const Reviews = () => {
       {/* Stats Section */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-neon-cyan/10 rounded-full blur-[120px]" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -352,8 +372,8 @@ const Reviews = () => {
               Join My <span className="text-neon-cyan">Happy Clients</span>
             </h2>
             <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto">
-              Let's work together and create something amazing. 
-              Your satisfaction is my top priority.
+              Let's work together and create something amazing. Your
+              satisfaction is my top priority.
             </p>
 
             <motion.button
@@ -367,7 +387,7 @@ const Reviews = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Reviews
+export default Reviews;

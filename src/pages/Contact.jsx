@@ -1,116 +1,133 @@
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { motion } from 'framer-motion'
-import { 
-  Mail, MapPin, Phone, Send, 
-  Github, Linkedin, Twitter, Instagram,
-  CheckCircle, Loader2
-} from 'lucide-react'
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "motion/react";
+import {
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+  CheckCircle,
+  Loader2,
+} from "lucide-react";
+import { useGSAP } from "@gsap/react";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Contact = () => {
-  const contactRef = useRef(null)
-  const formRef = useRef(null)
+  const contactRef = useRef(null);
+  const formRef = useRef(null);
   const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [focusedField, setFocusedField] = useState(null)
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Contact info animation
+  useGSAP(
+    (context) => {
+      const q = context.selector;
+
+      // Contact info animation (same as yours)
       gsap.fromTo(
-        '.contact-info-item',
+        q(".contact-info-item"),
         { x: -40, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 0.8,
           stagger: 0.15,
-          ease: 'power3.out',
+          ease: "power3.out",
+          force3D: true, // performance boost
           scrollTrigger: {
             trigger: contactRef.current,
-            start: 'top 75%',
+            start: "top 75%",
+            toggleActions: "play none none none",
+            once: true, // prevents re-trigger lag
           },
-        }
-      )
+        },
+      );
 
-      // Form animation
+      // Form animation (same as yours)
       gsap.fromTo(
-        '.form-container',
+        q(".form-container"),
         { x: 40, opacity: 0 },
         {
           x: 0,
           opacity: 1,
           duration: 1,
-          ease: 'power3.out',
+          ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: formRef.current,
-            start: 'top 75%',
+            start: "top 75%",
+            toggleActions: "play none none none",
+            once: true,
           },
-        }
-      )
-    })
-
-    return () => ctx.revert()
-  }, [])
+        },
+      );
+    },
+    {
+      scope: contactRef, // Scoped for performance
+    },
+  );
 
   const handleChange = (e) => {
     setFormState({
       ...formState,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
+    e.preventDefault();
+    setIsSubmitting(true);
+
     // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    setIsSubmitting(false)
-    setIsSubmitted(true)
-    setFormState({ name: '', email: '', subject: '', message: '' })
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormState({ name: "", email: "", subject: "", message: "" });
+
     // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000)
-  }
+    setTimeout(() => setIsSubmitted(false), 5000);
+  };
 
   const contactInfo = [
     {
       icon: Mail,
-      label: 'Email',
-      value: 'hello@portfolio.com',
-      href: 'mailto:hello@portfolio.com',
+      label: "Email",
+      value: "hello@portfolio.com",
+      href: "mailto:hello@portfolio.com",
     },
     {
       icon: Phone,
-      label: 'Phone',
-      value: '+1 (555) 123-4567',
-      href: 'tel:+15551234567',
+      label: "Phone",
+      value: "+1 (555) 123-4567",
+      href: "tel:+15551234567",
     },
     {
       icon: MapPin,
-      label: 'Location',
-      value: 'New York, NY',
-      href: '#',
+      label: "Location",
+      value: "New York, NY",
+      href: "#",
     },
-  ]
+  ];
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
-  ]
+    { icon: Github, href: "#", label: "GitHub" },
+    { icon: Linkedin, href: "#", label: "LinkedIn" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Instagram, href: "#", label: "Instagram" },
+  ];
 
   return (
     <div className="bg-dark-void min-h-screen pt-24">
@@ -119,7 +136,7 @@ const Contact = () => {
         <div className="absolute inset-0 gradient-mesh" />
         <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple/20 rounded-full blur-[120px]" />
-        
+
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -134,8 +151,8 @@ const Contact = () => {
               Let's <span className="text-neon-blue">Talk</span>
             </h1>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              Have a project in mind or just want to say hello? 
-              I'd love to hear from you. Let's create something amazing together.
+              Have a project in mind or just want to say hello? I'd love to hear
+              from you. Let's create something amazing together.
             </p>
           </motion.div>
         </div>
@@ -158,8 +175,8 @@ const Contact = () => {
                   Contact <span className="text-neon-purple">Information</span>
                 </h2>
                 <p className="text-gray-400 leading-relaxed">
-                  Feel free to reach out through any of these channels. 
-                  I'm always open to discussing new projects and opportunities.
+                  Feel free to reach out through any of these channels. I'm
+                  always open to discussing new projects and opportunities.
                 </p>
               </motion.div>
 
@@ -169,7 +186,7 @@ const Contact = () => {
                   <motion.a
                     key={index}
                     href={item.href}
-                    className="contact-info-item flex items-center gap-4 p-4 rounded-2xl glass border border-white/5 hover:border-neon-cyan/30 transition-all group"
+                    className="contact-info-item flex items-center gap-4 p-4 rounded-2xl glass border border-white/5 hover:border-neon-cyan/30  group"
                     whileHover={{ x: 10 }}
                   >
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-neon-blue to-neon-cyan flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -202,7 +219,7 @@ const Contact = () => {
                       href={social.href}
                       whileHover={{ scale: 1.1, y: -5 }}
                       whileTap={{ scale: 0.95 }}
-                      className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/30 border border-transparent transition-all"
+                      className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-neon-cyan hover:border-neon-cyan/30 border border-transparent "
                     >
                       <social.icon size={20} />
                     </motion.a>
@@ -246,9 +263,14 @@ const Contact = () => {
                     <div className="relative">
                       <motion.label
                         animate={{
-                          y: focusedField === 'name' || formState.name ? -24 : 0,
-                          scale: focusedField === 'name' || formState.name ? 0.85 : 1,
-                          color: focusedField === 'name' ? '#00d4ff' : '#999999',
+                          y:
+                            focusedField === "name" || formState.name ? -24 : 0,
+                          scale:
+                            focusedField === "name" || formState.name
+                              ? 0.85
+                              : 1,
+                          color:
+                            focusedField === "name" ? "#00d4ff" : "#999999",
                         }}
                         className="absolute left-0 top-3 origin-left pointer-events-none text-gray-500"
                       >
@@ -259,7 +281,7 @@ const Contact = () => {
                         name="name"
                         value={formState.name}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('name')}
+                        onFocus={() => setFocusedField("name")}
                         onBlur={() => setFocusedField(null)}
                         required
                         className="w-full bg-transparent border-b-2 border-white/10 focus:border-neon-cyan outline-none py-3 text-white transition-colors"
@@ -270,9 +292,16 @@ const Contact = () => {
                     <div className="relative">
                       <motion.label
                         animate={{
-                          y: focusedField === 'email' || formState.email ? -24 : 0,
-                          scale: focusedField === 'email' || formState.email ? 0.85 : 1,
-                          color: focusedField === 'email' ? '#00d4ff' : '#999999',
+                          y:
+                            focusedField === "email" || formState.email
+                              ? -24
+                              : 0,
+                          scale:
+                            focusedField === "email" || formState.email
+                              ? 0.85
+                              : 1,
+                          color:
+                            focusedField === "email" ? "#00d4ff" : "#999999",
                         }}
                         className="absolute left-0 top-3 origin-left pointer-events-none text-gray-500"
                       >
@@ -283,7 +312,7 @@ const Contact = () => {
                         name="email"
                         value={formState.email}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('email')}
+                        onFocus={() => setFocusedField("email")}
                         onBlur={() => setFocusedField(null)}
                         required
                         className="w-full bg-transparent border-b-2 border-white/10 focus:border-neon-cyan outline-none py-3 text-white transition-colors"
@@ -294,9 +323,16 @@ const Contact = () => {
                     <div className="relative">
                       <motion.label
                         animate={{
-                          y: focusedField === 'subject' || formState.subject ? -24 : 0,
-                          scale: focusedField === 'subject' || formState.subject ? 0.85 : 1,
-                          color: focusedField === 'subject' ? '#00d4ff' : '#999999',
+                          y:
+                            focusedField === "subject" || formState.subject
+                              ? -24
+                              : 0,
+                          scale:
+                            focusedField === "subject" || formState.subject
+                              ? 0.85
+                              : 1,
+                          color:
+                            focusedField === "subject" ? "#00d4ff" : "#999999",
                         }}
                         className="absolute left-0 top-3 origin-left pointer-events-none text-gray-500"
                       >
@@ -307,7 +343,7 @@ const Contact = () => {
                         name="subject"
                         value={formState.subject}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('subject')}
+                        onFocus={() => setFocusedField("subject")}
                         onBlur={() => setFocusedField(null)}
                         required
                         className="w-full bg-transparent border-b-2 border-white/10 focus:border-neon-cyan outline-none py-3 text-white transition-colors"
@@ -318,9 +354,16 @@ const Contact = () => {
                     <div className="relative">
                       <motion.label
                         animate={{
-                          y: focusedField === 'message' || formState.message ? -24 : 0,
-                          scale: focusedField === 'message' || formState.message ? 0.85 : 1,
-                          color: focusedField === 'message' ? '#00d4ff' : '#999999',
+                          y:
+                            focusedField === "message" || formState.message
+                              ? -24
+                              : 0,
+                          scale:
+                            focusedField === "message" || formState.message
+                              ? 0.85
+                              : 1,
+                          color:
+                            focusedField === "message" ? "#00d4ff" : "#999999",
                         }}
                         className="absolute left-0 top-3 origin-left pointer-events-none text-gray-500"
                       >
@@ -330,7 +373,7 @@ const Contact = () => {
                         name="message"
                         value={formState.message}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('message')}
+                        onFocus={() => setFocusedField("message")}
                         onBlur={() => setFocusedField(null)}
                         required
                         rows={4}
@@ -369,7 +412,7 @@ const Contact = () => {
       {/* FAQ Section */}
       <section className="py-24 relative overflow-hidden">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-neon-cyan/5 rounded-full blur-[150px]" />
-        
+
         <div className="max-w-4xl mx-auto px-6 lg:px-8 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -389,20 +432,20 @@ const Contact = () => {
           <div className="space-y-4">
             {[
               {
-                q: 'What is your typical project timeline?',
-                a: 'Project timelines vary based on complexity. A simple website takes 1-2 weeks, while complex applications may take 4-8 weeks.',
+                q: "What is your typical project timeline?",
+                a: "Project timelines vary based on complexity. A simple website takes 1-2 weeks, while complex applications may take 4-8 weeks.",
               },
               {
-                q: 'Do you offer ongoing support?',
-                a: 'Yes! I offer maintenance packages to keep your website running smoothly with regular updates and support.',
+                q: "Do you offer ongoing support?",
+                a: "Yes! I offer maintenance packages to keep your website running smoothly with regular updates and support.",
               },
               {
-                q: 'What are your payment terms?',
-                a: 'I typically require a 50% deposit to start, with the remaining 50% due upon project completion.',
+                q: "What are your payment terms?",
+                a: "I typically require a 50% deposit to start, with the remaining 50% due upon project completion.",
               },
               {
-                q: 'Can you work with existing designs?',
-                a: 'Absolutely! I can work with your existing designs or create new ones from scratch based on your requirements.',
+                q: "Can you work with existing designs?",
+                a: "Absolutely! I can work with your existing designs or create new ones from scratch based on your requirements.",
               },
             ].map((faq, index) => (
               <motion.div
@@ -423,7 +466,7 @@ const Contact = () => {
         </div>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;
